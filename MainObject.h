@@ -3,6 +3,7 @@
 
 #include "BaseObject.h"
 #include "CommonFunc.h"
+#include "GameMap.h"
 
 static int num_jump_left_ = 0;
 static int num_jump_right_ = 0;
@@ -35,7 +36,8 @@ public:
 	void x_pos_set(float x_pos) { x_pos_ = x_pos; }
 	void y_pos_set(float y_pos) { y_pos_ = y_pos; }
 	void LoadMix();
-	void off(bool Off) { off_ = Off; }
+	void off(bool Off) { off_ = Off; };
+	int getMoney(){ return money; };
 private:
 	float x_val_;
 	float y_val_;
@@ -47,6 +49,7 @@ private:
 	bool on_ground;
 	Mix_Chunk* sound_effect[3];
 	bool off_;
+	int money;
 };
 
 #endif

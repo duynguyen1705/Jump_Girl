@@ -1,4 +1,5 @@
 #include "MainObject.h"
+using namespace std;
 
 MainObject::MainObject()
 {
@@ -6,7 +7,7 @@ MainObject::MainObject()
 	y_val_ = 0;
 	ifstream pos_file(Save_Position);
 	pos_file >> x_pos_;
-	pos_file >> y_pos_;
+	pos_file >> y_pos_; 
 	pos_file.close();
 	frame_ = 0;
 	input_type_.LEFT_ = 0;
@@ -15,12 +16,12 @@ MainObject::MainObject()
 	input_type_.d_ = 0;
 	input_type_.a_ = 0;
 	on_ground = true;
-	off_ = 0;
+	off_ = false;
 }
 
 MainObject::~MainObject()
 {
-
+	Free();
 }
 
 bool MainObject::LoadImg(string path, SDL_Renderer* screen)
@@ -31,7 +32,7 @@ bool MainObject::LoadImg(string path, SDL_Renderer* screen)
 
 void MainObject::set_clips()
 {
-	for (int i = 0; i < 5; i++)
+	for (int i = 0; i < CharFrames; i++)
 	{
 		frame_clip_[i].x = i * TILE_SIZE;
 		frame_clip_[i].y = 0;
@@ -87,12 +88,12 @@ void MainObject::Show(SDL_Renderer* des, int cam_y)
 			ok = 1;
 		}
 		frame_++;
-		if (frame_ >= 5)
+		if (frame_ >= CharFrames)
 		{
 			frame_ = 0;
 		}
 	}
-	else frame_ = 4;
+	else frame_ = CharFrames -1;
 
 	rect_.x = x_pos_;
 	rect_.y = y_pos_ - cam_y;
@@ -257,7 +258,7 @@ void MainObject::DoPlayer(Map& map_data)
 			if (num_right_ < GO_SPEED)
 			{
 				num_right_ = GO_SPEED;
-			}
+			}    
 			if (num_jump_right_ > 0)
 			{
 				y_val_ = -num_jump_right_;
@@ -279,6 +280,7 @@ void MainObject::DoPlayer(Map& map_data)
 
 void MainObject::CheckToMap(Map& map_data)
 {
+	map_data.tile[MAX_MAP_Y][MAX_MAP_X] = BLANKTILE;
 	on_ground = false;
 	int x1 = 0;
 	int x2 = 0;
@@ -296,7 +298,13 @@ void MainObject::CheckToMap(Map& map_data)
 	{
 		if (x_val_ > 0)
 		{
-			if (map_data.tile[y1][x2] != 0 || map_data.tile[y2][x2] != 0)
+			if (map_data.tile[y1][x2] > 10 || map_data.tile[y2][x2] > 10)
+			{
+				money += max(map_data.tile[y1][x2], map_data.tile[y2][x2]);
+				map_data.tile[y1][x2] = BLANKTILE;
+				map_data.tile[y2][x2] = BLANKTILE;
+			}
+			else if (map_data.tile[y1][x2] != BLANKTILE || map_data.tile[y2][x2] != BLANKTILE)
 			{
 				x_pos_ = x2 * TILE_SIZE;
 				x_pos_ -= TILE_SIZE + 1;
@@ -305,7 +313,13 @@ void MainObject::CheckToMap(Map& map_data)
 		}
 		else if (x_val_ < 0)
 		{
-			if (map_data.tile[y1][x1] != 0 || map_data.tile[y2][x1] != 0)
+			if (map_data.tile[y1][x1] > 10 || map_data.tile[y2][x1] > 10)
+			{
+				money += max(map_data.tile[y1][x1], map_data.tile[y2][x1]);
+				map_data.tile[y1][x1] = BLANKTILE;
+				map_data.tile[y2][x1] = BLANKTILE;
+			}
+			else if (map_data.tile[y1][x1] != BLANKTILE || map_data.tile[y2][x1] != BLANKTILE)
 			{
 				x_pos_ = (x1 + 1) * TILE_SIZE;
 				x_val_ = 0;
@@ -323,7 +337,13 @@ void MainObject::CheckToMap(Map& map_data)
 	{
 		if (y_val_ > 0)
 		{
-			if (map_data.tile[y2][x1] != 0 || map_data.tile[y2][x2] != 0)
+			if (map_data.tile[y2][x1] > 10 || map_data.tile[y2][x2] > 10)
+			{
+				money += max(map_data.tile[y2][x1], map_data.tile[y2][x2]);
+				map_data.tile[y2][x1] = BLANKTILE;
+				map_data.tile[y2][x2] = BLANKTILE;
+			}
+			else if (map_data.tile[y2][x1] != BLANKTILE || map_data.tile[y2][x2] != BLANKTILE)
 			{
 				y_pos_ = y2 * TILE_SIZE;
 				y_pos_ -= TILE_SIZE;
@@ -355,7 +375,13 @@ void MainObject::CheckToMap(Map& map_data)
 		}
 		else if (y_val_ < 0)
 		{
-			if (map_data.tile[y1][x1] != 0 || map_data.tile[y1][x2] != 0)
+			if (map_data.tile[y1][x1] > 10 || map_data.tile[y1][x2] > 10)
+			{
+				money += max(map_data.tile[y1][x1], map_data.tile[y1][x2]);
+				map_data.tile[y1][x1] = BLANKTILE;
+				map_data.tile[y1][x2] = BLANKTILE;
+			}
+			else if (map_data.tile[y1][x1] != 0 || map_data.tile[y1][x2] != 0)
 			{
 				y_pos_ = (y1 + 1) * TILE_SIZE;
 				y_val_ = 0;

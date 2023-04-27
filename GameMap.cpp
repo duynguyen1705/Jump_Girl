@@ -40,6 +40,7 @@ void GameMap::DrawMap(SDL_Renderer* screen, int level)
 	int map_x = 0;
 	int map_y = 0;
 	int numberTilesHeight = SCREEN_HEIGHT / TILE_SIZE;
+
 	for (int i = level * numberTilesHeight; i < (level * numberTilesHeight) + numberTilesHeight; i++)
 	{
 		for (int j = 0; j < MAX_MAP_X; j++)

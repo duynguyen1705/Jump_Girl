@@ -9,6 +9,9 @@
 #include <SDL_image.h>
 #include <SDL_mixer.h>
 #include <SDL_ttf.h>
+#include <chrono>
+#include <vector>
+#include <time.h>
 
 using namespace std;
 
@@ -33,8 +36,10 @@ const int FRAME_PER_SECOND = 37;
 #define TILE_SIZE 50
 #define MAX_MAP_X 24
 #define MAX_MAP_Y 112
-#define MAX_TILES 11
+#define MAX_TILES 18
 #define numberOfMap 8
+#define BLANKTILE 0
+#define CharFrames 5
 
 
 //file name
@@ -42,6 +47,7 @@ const char MenuVolumeOn_File_Name[] = { "Map/Menu_VolumeOn.png" };
 const char MenuVolumeOff_File_Name[] = { "Map/Menu_VolumeOff.png" };
 const char Victory_File_Name[] = { "Map/Victory.png" };
 const char Turtorial_File_Name[] = { "Map/Tutorial.png" };
+const char Introduce_File_Name[] = { "Map/Introduce.png" };
 const char Map_File_Name[] = { "Map/TileMap.txt" };
 const char Right_File_Name[] = { "Img/Walk_RIGHT.png" };
 const char Left_File_Name[] = { "Img/Walk_LEFT.png" };
@@ -50,7 +56,11 @@ const char Jump_Left_File_Name[] = { "Img/LEFT.png" };
 const char Jump_Up_File_Name[] = { "Img/UP.png" };
 const char FirstTime_Position[] = { "Map/pos.txt" };
 const char Save_Position[] = { "Map/Pos_.txt" };
-
+const char High_Score_Save[] = { "Map/HighScore.txt" };
+const char InGame_Sound_File[] = { "Sound/MixSong.mp3" };
+const char Menu_Sound_File[] = { "Sound/ShadowOfTheSun.mp3" };
+const char Win_Sound_File[] = { "Sound/ChampionLeagueSong.mp3" };
+const char font[] = {"Font//ShortBaby-Mg2w.ttf"};
 typedef struct
 {
 	int LEFT_;
