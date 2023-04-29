@@ -21,7 +21,7 @@ public:
 	void LoadTiles(SDL_Renderer* screen);
 	void DrawMap(SDL_Renderer* screen, int level);
 	Map getMap() const { return game_map_; }
-	Map setMap(Map& map_data) { game_map_ = map_data; }
+	void setMap(Map& map_data) { game_map_ = map_data; }
 private:
 	Map game_map_;
 	TileMap tile_map[MAX_TILES];

@@ -12,6 +12,7 @@ BaseObject MenuVolumeOff;
 BaseObject Victory;
 BaseObject Tutorial;
 BaseObject Introduce;
+BaseObject Level;
 
 Mix_Music* InGameSound;
 Mix_Music* MenuSound;
@@ -77,6 +78,7 @@ void LoadBackground()
 	Victory.LoadImg(Victory_File_Name, g_screen);
 	Tutorial.LoadImg(Turtorial_File_Name, g_screen);
 	Introduce.LoadImg(Introduce_File_Name, g_screen);
+	Level.LoadImg(Level_File_Name, g_screen);
 
 	char file_img[10];
 	for (int i = 0; i < numberOfMap; i++)
@@ -117,17 +119,9 @@ void close()
 
 int main(int argc, char* argv[])
 {
+	string Map_File_Name;
 	GameMap game_map;
-
-	game_map.LoadMap(Map_File_Name);
-	game_map.LoadTiles(g_screen);
-	Map map_data_ = game_map.getMap();
-
 	MainObject player;
-	player.LoadImg(Right_File_Name, g_screen);
-	player.set_clips();
-	player.LoadMix();
-
 	Fps fps_timer;
 
 	if (InitData() == false)
@@ -138,6 +132,7 @@ int main(int argc, char* argv[])
 	LoadBackground();
 
 	bool off = true;
+	bool _off = false;
 
 	bool menu = true;
 	bool tutorial = false;
@@ -145,6 +140,8 @@ int main(int argc, char* argv[])
 	bool introduce = false;
 
 	bool new_game = false;
+
+	bool level = false;
 
 	auto start = std::chrono::steady_clock::now();
 
@@ -165,6 +162,11 @@ int main(int argc, char* argv[])
 		if (tutorial)
 		{
 			Tutorial.Render(g_screen, NULL);
+
+		}
+		if (level)
+		{
+			Level.Render(g_screen, NULL);
 
 		}
 		else
@@ -234,10 +236,14 @@ int main(int argc, char* argv[])
 				}
 				case SDLK_y:
 				{
-					new_game = true;
-					Mix_HaltMusic();
-					menu = false;
-					start = std::chrono::steady_clock::now();
+					if (level)
+					{
+						level = false;
+					}
+					else
+					{
+						level = true;
+					}
 				}
 				break;
 				case SDLK_i:
@@ -251,6 +257,37 @@ int main(int argc, char* argv[])
 						introduce = false;
 					}
 				}
+				break;
+				case SDLK_h:
+				{
+					new_game = true;
+					Mix_HaltMusic();
+					menu = false;
+					start = std::chrono::steady_clock::now();
+					Map_File_Name = Map_File_Name1;
+					level = false;
+				}
+				break;
+				case SDLK_m:
+				{
+					new_game = true;
+					Mix_HaltMusic();
+					menu = false;
+					start = std::chrono::steady_clock::now();
+					Map_File_Name = Map_File_Name2;
+					level = false;
+				}
+				break;
+				case SDLK_e:
+				{
+					new_game = true;
+					Mix_HaltMusic();
+					menu = false;
+					start = std::chrono::steady_clock::now();
+					Map_File_Name = Map_File_Name3;
+					level = false;
+				}
+				break;
 				}
 			default:
 				break;
@@ -259,8 +296,14 @@ int main(int argc, char* argv[])
 	}
 
 	bool play = true;
-	while (play && !menu)
+	while (play && !menu && !level)
 	{
+		player.LoadImg(Right_File_Name, g_screen);
+		player.set_clips();
+		player.LoadMix();
+		game_map.LoadMap(Map_File_Name);
+		game_map.LoadTiles(g_screen);
+		Map map_data_ = game_map.getMap();
 		map_level = 1;
 		camera.x = 0;
 
@@ -327,13 +370,23 @@ int main(int argc, char* argv[])
 							off = true;
 						}
 					}
-					break;
+					case SDLK_i:
+					{
+						if (_off)
+						{
+							_off = false;
+						}
+						else
+						{
+							_off = true;
+						}
+					}
 					}
 				}
 				player.HandelInputAction(g_event, g_screen);
 			}
 
-			player.off(off);
+			player.off(_off);
 
 			SDL_SetRenderDrawColor(g_screen, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR, RENDER_DRAW_COLOR);
 			SDL_RenderClear(g_screen);
@@ -345,7 +398,6 @@ int main(int argc, char* argv[])
 			camera.y = map_level * SCREEN_HEIGHT;
 			g_background[map_level].Render(g_screen, NULL);
 
-			game_map.setMap(map_data_);
 			game_map.DrawMap(g_screen, map_level);
 
 			player.Show(g_screen, camera.y);
@@ -375,9 +427,9 @@ int main(int argc, char* argv[])
 
 			string moneyCount = "Money: " + to_string(player.getMoney());
 
-			money_count.SetText(moneyCount);
-			money_count.LoadFromRenderText(font_time, g_screen);
-			money_count.RenderText(g_screen, SCREEN_WIDTH / 2, 15);
+			//money_count.SetText(moneyCount);
+			//money_count.LoadFromRenderText(font_time, g_screen);
+			//money_count.RenderText(g_screen, SCREEN_WIDTH / 2, 15);
 
 			SDL_RenderPresent(g_screen);
 
