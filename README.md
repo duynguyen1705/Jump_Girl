@@ -26,4 +26,8 @@ Mã sinh viên: 22024537
   [LaptrinhnangcaoAZ](https://www.youtube.com/watch?v=q1WzniyeGTU&list=PLR7NDiX0QsfTIEQUeYCfc2MyCquX0ig9V)  
   [Game 1 anh khoá trước](https://www.youtube.com/watch?v=2E-RGGl0fZA&t=79s)  
 
+## Demo game
+  
+  [Demo](https://youtu.be/LDYTL4KqiTE)
+
 
