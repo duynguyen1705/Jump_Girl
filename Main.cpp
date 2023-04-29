@@ -143,6 +143,8 @@ int main(int argc, char* argv[])
 
 	bool level = false;
 
+	double second = 0;
+
 	auto start = std::chrono::steady_clock::now();
 
 	while (menu)
@@ -164,26 +166,29 @@ int main(int argc, char* argv[])
 			Tutorial.Render(g_screen, NULL);
 
 		}
-		if (level)
-		{
-			Level.Render(g_screen, NULL);
-
-		}
 		else
 		{
-			if (introduce)
+			if (level)
 			{
-				Introduce.Render(g_screen, NULL);
+				Level.Render(g_screen, NULL);
+
 			}
 			else
 			{
-				if (!off)
+				if (introduce)
 				{
-					MenuVolumeOff.Render(g_screen, NULL);
+					Introduce.Render(g_screen, NULL);
 				}
 				else
 				{
-					MenuVolumeOn.Render(g_screen, NULL);
+					if (!off)
+					{
+						MenuVolumeOff.Render(g_screen, NULL);
+					}
+					else
+					{
+						MenuVolumeOn.Render(g_screen, NULL);
+					}
 				}
 			}
 		}
@@ -203,6 +208,14 @@ int main(int argc, char* argv[])
 					Mix_HaltMusic();
 					menu = false;
 					start = std::chrono::steady_clock::now();
+					ifstream file(Time_Save_File);
+					double sec;
+					file >> sec;
+					second = sec;
+					file.close();
+					ifstream Mapfile(Map_Save_File);
+					Mapfile >> Map_File_Name;
+					Mapfile.close();
 				}
 				break;
 				case SDLK_n:
@@ -298,6 +311,10 @@ int main(int argc, char* argv[])
 	bool play = true;
 	while (play && !menu && !level)
 	{
+		ofstream MapSaveF(Map_Save_File);
+		MapSaveF << Map_File_Name;
+		MapSaveF.close();
+
 		player.LoadImg(Right_File_Name, g_screen);
 		player.set_clips();
 		player.LoadMix();
@@ -407,7 +424,11 @@ int main(int argc, char* argv[])
 
 			double seconds = std::chrono::duration<double>(diff).count() / 100000;
 
-			string str_time = "Time: " + to_string(seconds);
+			string str_time = "Time: " + to_string(second + seconds);
+
+			ofstream TimeSaveFileout(Time_Save_File);
+			TimeSaveFileout << seconds;
+			TimeSaveFileout.close();
 
 			time_game.SetText(str_time);
 			time_game.LoadFromRenderText(font_time, g_screen);

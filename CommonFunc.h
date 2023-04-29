@@ -48,22 +48,29 @@ const char MenuVolumeOff_File_Name[] = { "Map/Menu_VolumeOff.png" };
 const char Victory_File_Name[] = { "Map/Victory.png" };
 const char Turtorial_File_Name[] = { "Map/Tutorial.png" };
 const char Introduce_File_Name[] = { "Map/Introduce.png" };
+
 const char Level_File_Name[] = { "Map/Level.png" };
 const char Map_File_Name1[] = { "Map/TileMap.txt" };
 const char Map_File_Name2[] = { "Map/TileMap2.txt" };
 const char Map_File_Name3[] = { "Map/TileMap3.txt" };
+
 const char Right_File_Name[] = { "Img/Walk_RIGHT.png" };
 const char Left_File_Name[] = { "Img/Walk_LEFT.png" };
 const char Jump_Right_File_Name[] = { "Img/RIGHT.png" };
 const char Jump_Left_File_Name[] = { "Img/LEFT.png" };
 const char Jump_Up_File_Name[] = { "Img/UP.png" };
+
 const char FirstTime_Position[] = { "Map/pos.txt" };
 const char Save_Position[] = { "Map/Pos_.txt" };
 const char High_Score_Save[] = { "Map/HighScore.txt" };
+const char Time_Save_File[] = { "Map/TimeSave.txt" };
+const char Map_Save_File[] = { "Map/MapSave.txt" };
+
 const char InGame_Sound_File[] = { "Sound/MixSong.mp3" };
 const char Menu_Sound_File[] = { "Sound/ShadowOfTheSun.mp3" };
 const char Win_Sound_File[] = { "Sound/ChampionLeagueSong.mp3" };
-const char font[] = {"Font//ShortBaby-Mg2w.ttf"};
+
+const char font[] = { "Font//ShortBaby-Mg2w.ttf" };
 typedef struct
 {
 	int LEFT_;
