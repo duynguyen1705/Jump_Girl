@@ -60,8 +60,8 @@ const char Jump_Right_File_Name[] = { "Img/RIGHT.png" };
 const char Jump_Left_File_Name[] = { "Img/LEFT.png" };
 const char Jump_Up_File_Name[] = { "Img/UP.png" };
 
-const char FirstTime_Position[] = { "Map/pos.txt" };
-const char Save_Position[] = { "Map/Pos_.txt" };
+const char FirstTime_Position[] = { "Map/FirstPos.txt" };
+const char Save_Position[] = { "Map/Last.txt" };
 const char High_Score_Save[] = { "Map/HighScore.txt" };
 const char Time_Save_File[] = { "Map/TimeSave.txt" };
 const char Map_Save_File[] = { "Map/MapSave.txt" };
